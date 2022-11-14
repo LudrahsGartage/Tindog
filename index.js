@@ -1,9 +1,10 @@
-// Remember to import the data and Dog class!
-
 import { dogs } from "./data.js"
 import { Dog } from "./Dog.js"
 
 let currentDog
+let timeout = false
+
+document.getElementById("btn-bar").addEventListener("click", (event) => handleClick(event))
 
 function getNewDog() {
     currentDog = new Dog(dogs.shift())
@@ -11,16 +12,34 @@ function getNewDog() {
 }
 
 function render() {
-    document.getElementById("container").innerHTML = currentDog.getDogHtml()
+    if (currentDog.name) {
+        document.getElementById("container").innerHTML = currentDog.getDogHtml()
+    } else {
+        document.querySelector("main").innerHTML = `<div class="no-matches">No More Matches! T_T</div>`
+    }
 }
 
-// Create conditional logic on render - 
-// if is swiped is true, and if liked is true, display liked and have set time out lock
-// if is liked is false, display disliked and set time out
-// if swiped is false do nothing
-//render
+function handleClick (event) {
+    if(timeout === false) {
+        if (event.target.id == "cross-icon") {
+            timeout = true
+            currentDog.setSwipe(false)
+            document.getElementById("dislike-badge").classList.add("unhide")
+        } else if (event.target.id == "heart-icon") {
+            timeout = true
+            currentDog.setSwipe(true)
+            document.getElementById("like-badge").classList.add("unhide")
+        }
+        if (currentDog.hasBeenSwiped) {
+            setTimeout(()=>{
+                getNewDog()
+                render()
+                timeout = false
+            },1500)
+        }
+    }
+}
 
-// add a single page event listener to handle button id clicks
-// data is passed according to button id, and a handle click function is called, which handles clicks, logic and render method.
 
-// if array is empty, display no more matches in main
+getNewDog()
+render()

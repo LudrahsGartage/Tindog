@@ -1,4 +1,3 @@
-// Create the Dog class here
 
 export class Dog {
     constructor(data) {
@@ -6,8 +5,10 @@ export class Dog {
     }
 
     setSwipe (liked) {
-        !this.hasBeenSwiped
-        liked && !this.hasBeenLiked
+        console.log(this)
+        this.hasBeenSwiped = true
+        this.hasBeenLiked = liked
+        console.log(this)
     } 
 
     getDogHtml() {
@@ -17,6 +18,8 @@ export class Dog {
             <h2 class="name-and-age">${this.name}, ${this.age}</h2>
             <p class="description">${this.bio}</p>
         </div>
+        <img src="./images/badge-like.png" class="badge" id="like-badge">
+        <img src="./images/badge-nope.png" class="badge" id="dislike-badge">
         `
     }
 }
